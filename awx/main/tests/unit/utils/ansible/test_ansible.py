@@ -1,9 +1,10 @@
 import os
 import os.path
+import json
 
 import pytest
 
-from awx.main.utils.ansible import could_be_playbook, could_be_inventory
+from awx.main.utils.ansible import could_be_playbook, could_be_inventory, filter_non_json_lines
 
 HERE, _ = os.path.split(__file__)
 
@@ -30,3 +31,10 @@ def test_could_be_inventory(filename):
 def test_is_not_inventory(filename):
     path = os.path.join(HERE, 'inventories', 'invalid')
     assert could_be_inventory(HERE, path, filename) is None
+
+
+def test_filter_non_json_lines():
+    data = {'foo': 'bar', 'bar': 'foo'}
+    dumped_data = json.dumps(data, indent=2)
+    output = 'Openstack does this\nOh why oh why\n{}\ntrailing lines\nneed testing too'.format(dumped_data)
+    assert filter_non_json_lines(output) == dumped_data
