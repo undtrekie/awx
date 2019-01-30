@@ -1406,6 +1406,33 @@ class CredentialCopy(CopyAPIView):
     copy_return_serializer_class = CredentialSerializer
 
 
+class CredentialInputSourceDetail(RetrieveUpdateDestroyAPIView):
+
+    view_name = _("Credential Input Source Detail")
+
+    model = CredentialInputSource
+    serializer_class = CredentialInputSourceSerializer
+
+
+class CredentialInputSourceList(ListCreateAPIView):
+
+    view_name = _("Credential Input Sources")
+
+    model = CredentialInputSource
+    serializer_class = CredentialInputSourceSerializer
+
+
+class CredentialInputSourceSubList(SubListAPIView):
+
+    view_name = _("Credential Input Sources")
+
+    model = CredentialInputSource
+    serializer_class = CredentialInputSourceSerializer
+    parent_model = Credential
+    relationship = 'input_source'
+    parent_key = 'target_credential'
+
+
 class HostRelatedSearchMixin(object):
 
     @property
